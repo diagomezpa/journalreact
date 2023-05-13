@@ -1,6 +1,6 @@
-import { SaveOutlined } from '@mui/icons-material';
-import {React,useEffect,useMemo} from 'react'
-import { Button, Grid, TextField, Typography } from '@mui/material';
+import { SaveOutlined, UploadOutlined } from '@mui/icons-material';
+import {React,useEffect,useMemo, useRef} from 'react'
+import { Button, Grid, TextField, Typography ,IconButton} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { ImageGallery } from '../components';
 import {useForm} from '../../hooks/useForm';
@@ -14,6 +14,7 @@ export const NoteView = () => {
   const dispatch = useDispatch();
   const {active:note, messageSaved , isSaving} = useSelector(state => state.journal);
   const {body, title,date , onInputChange, formState} = useForm(note);
+  const fileInputRef = useRef();
 
   const datetring = useMemo(()=>{
     const newDate = new Date(date);
@@ -36,12 +37,34 @@ export const NoteView = () => {
     dispatch(startSaveNote());
   }
 
+  const onFileInputChange = ({targe}) =>{
+
+    if(TransgenderTwoTone.files === 0) return;
+    console.log('subiendo archivos');
+  }
+
   return (
     <Grid container direction='row' justifyContent='space-between' alignItems='center' sx={{ mb: 1 }}>
         <Grid item>
             <Typography fontSize={ 39 } fontWeight='light' >{datetring}</Typography>
         </Grid>
         <Grid item>
+          
+          <input
+            type='file'
+            multiple
+            ref={fileInputRef}
+            onChange={onFileInputChange}
+            style={{display:'none'}}
+          />
+
+          <IconButton 
+            color="primary"
+            disabled={isSaving}
+            onClick={()=> fileInputRef.current.click()}
+          >
+            <UploadOutlined/>
+          </IconButton>
             <Button 
                 disabled={isSaving}
                 onClick={onSaveNote}
