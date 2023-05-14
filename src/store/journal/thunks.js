@@ -1,7 +1,7 @@
 import { async } from "@firebase/util";
 import { collection,doc,setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
-import { loadNotes } from "../../helpers";
+import { loadNotes,fileUpload } from "../../helpers";
 import {addNewEmptyNote, setActiveNote,savingNewNote,setNotes, setSaving,updatedNote} from "./"
 
 export const startNewNote =()=> {
@@ -54,5 +54,13 @@ export const startSaveNote = () => {
         const docRef = doc(FirebaseDB,`${uid}/journal/notes/${note.id}`);
         await setDoc(docRef,noteToFireStore,{merge:true});
         dispatch(updatedNote(note));
+    }
+}
+
+export const starUploadingFiles =(files = []) => {
+
+    return async (dispatch) => {
+        dispatch( setSaving());
+        await fileUpload (files[0]);
     }
 }

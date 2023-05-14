@@ -4,7 +4,7 @@ import { Button, Grid, TextField, Typography ,IconButton} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { ImageGallery } from '../components';
 import {useForm} from '../../hooks/useForm';
-import { setActiveNote, startSaveNote } from '../../store/journal';
+import { setActiveNote, startSaveNote,starUploadingFiles } from '../../store/journal';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
@@ -37,10 +37,11 @@ export const NoteView = () => {
     dispatch(startSaveNote());
   }
 
-  const onFileInputChange = ({targe}) =>{
+  const onFileInputChange = ({target}) =>{
 
-    if(TransgenderTwoTone.files === 0) return;
+    if(target.files === 0) return;
     console.log('subiendo archivos');
+    dispatch(starUploadingFiles(target.files));
   }
 
   return (
