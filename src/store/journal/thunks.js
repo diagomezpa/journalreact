@@ -2,7 +2,7 @@ import { async } from "@firebase/util";
 import { collection,doc,setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { loadNotes,fileUpload } from "../../helpers";
-import {addNewEmptyNote, setActiveNote,savingNewNote,setNotes, setSaving,updatedNote} from "./"
+import {addNewEmptyNote, setActiveNote,savingNewNote,setNotes, setSaving,updatedNote,setPhothosToActiveNote} from "./"
 
 export const startNewNote =()=> {
     return async (dispatch,getState) => {
@@ -61,6 +61,13 @@ export const starUploadingFiles =(files = []) => {
 
     return async (dispatch) => {
         dispatch( setSaving());
-        await fileUpload (files[0]);
+        const fileUploadPromises = [];
+        for(const file of files){
+            fileUploadPromises.push(fileUpload(file));
+
+        }
+
+        const phothoUrls = await Promise.all(fileUploadPromises);
+        dispatch(setPhothosToActiveNote(phothoUrls));
     }
 }
