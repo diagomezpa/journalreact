@@ -1,6 +1,7 @@
 export const fileUpload = async(file) => {
 
-    if(!file) throw Error('No tenemos ningún archio para subir');
+    //if(!file) throw Error('No tenemos ningún archio para subir');
+    if(!file) return null;
     const cloudUrl = 'https://api.cloudinary.com/v1_1/dnx5ux6nr/upload';
     const formData = new FormData();
     formData.append('upload_preset','react-journal')
@@ -17,6 +18,7 @@ export const fileUpload = async(file) => {
 
     }catch(error){
        
-        throw new Error(error.message);
+        //throw new Error(error.message);
+        return null;
     }
 }
