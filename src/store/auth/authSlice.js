@@ -9,6 +9,7 @@ export const authSlice = createSlice({
    initialState:{
     status:'checking', // 'checking','not-authenticated' , 'authenticated',
     uid: null,
+    email:null,
     displayName: null,
     phothoURL: null, 
     errorMessage:null,
@@ -17,6 +18,7 @@ export const authSlice = createSlice({
        login:(state, {payload})=>{
         state.status='authenticated'; // 'checking','not-authenticated' , 'authenticated',
         state.uid= payload.uid;
+        state.email = payload.email;
         state.displayName= payload.displayName;
         state.phothoURL= payload.phothoURL; 
         state.errorMessage=null;
@@ -24,6 +26,7 @@ export const authSlice = createSlice({
        logout:(state,{payload})=>{
         state.status='not-authenticated'; // 'checking','not-authenticated' , 'authenticated',
         state.uid= null;
+        state.email = null;
         state.displayName= null;
         state.phothoURL= null; 
         state.errorMessage=payload?.errorMessage;
@@ -34,4 +37,4 @@ export const authSlice = createSlice({
    },
 })
 
-export const { login, logout, checkingCredentials } = authSlice.actions
+export const { login, logout, checkingCredentials } = authSlice.actions // funciones que crean aciones  
